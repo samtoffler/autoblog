@@ -1,95 +1,85 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import {
+  Button,
+  Center,
+  ChakraProvider,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Select,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { useState } from "react";
 
 export default function Home() {
+  const [repoUrl, setRepoUrl] = useState("");
+  const [firstCommit, setFirstCommit] = useState("");
+  const [lastCommit, setLastCommit] = useState("");
+  const [output, setOutput] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = { repoUrl, firstCommit, lastCommit };
+    console.log(res);
+    setOutput(JSON.stringify(res, null, 2));
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <ChakraProvider>
+      <Center>
+        <VStack>
+          <Heading alignSelf="center" textAlign="center" size="4xl" mt={8}>
+            Autoblog
+          </Heading>
+          <form onSubmit={handleSubmit}>
+            <VStack alignSelf="center" mt={8} spacing={8} width="lg">
+              <FormControl isRequired>
+                <FormLabel>GitHub URL</FormLabel>
+                <Input
+                  type="url"
+                  placeholder="https://github.com/freeCodeCamp/freeCodeCamp"
+                  value={repoUrl}
+                  onChange={(e) => setRepoUrl(e.target.value)}
+                />
+              </FormControl>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+              <FormControl isRequired>
+                <FormLabel>First Commit</FormLabel>
+                <Select
+                  placeholder="Select first commit"
+                  value={firstCommit}
+                  onChange={(e) => setFirstCommit(e.target.value)}
+                >
+                  <option>Commit 1</option>
+                  <option>Commit 2</option>
+                  <option>Commit 3</option>
+                </Select>
+              </FormControl>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+              <FormControl isRequired>
+                <FormLabel>Last Commit</FormLabel>
+                <Select
+                  placeholder="Select last commit"
+                  value={lastCommit}
+                  onChange={(e) => setLastCommit(e.target.value)}
+                >
+                  <option>Commit 1</option>
+                  <option>Commit 2</option>
+                  <option>Commit 3</option>
+                </Select>
+              </FormControl>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+              <Button type="submit" colorScheme="blue">
+                Submit
+              </Button>
+            </VStack>
+          </form>
+          <Text mt={8}>{output}</Text>
+        </VStack>
+      </Center>
+    </ChakraProvider>
+  );
 }
